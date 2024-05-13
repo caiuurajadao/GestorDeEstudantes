@@ -11,7 +11,7 @@ namespace GestorDeEstudantes
     internal class Meu_Banco_De_Dados
     {
         //A conexão com o banco de dados
-        private MySqlConnection conexao = new MySqlConnection("datasource=localhost;port=3306;root;password=;databse=sga_estudantes_bd_t7");
+        private MySqlConnection conexao = new MySqlConnection("datasource=localhost;port=3306;user=root;password=;database=sga_estudantes_bd_t7");
 
         // Acessor da variavel "conexão"
         public MySqlConnection getConexao

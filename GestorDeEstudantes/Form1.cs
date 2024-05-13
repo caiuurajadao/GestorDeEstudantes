@@ -33,14 +33,40 @@ namespace GestorDeEstudantes
             Meu_Banco_De_Dados meu_Banco_De_Dados = new Meu_Banco_De_Dados();
 
             MySqlDataAdapter meuAdaptadorSql = new MySqlDataAdapter ();
-            DataTable tabeDeDados = new DataTable();
-            MySqlCommand comandoSql = new MySqlCommand("", meu_Banco_De_Dados.getConexao);
+            DataTable tabelaDeDados = new DataTable();
+            MySqlCommand comandoSql = new MySqlCommand("SELECT * FROM `usuários` WHERE `nome_de_usuario`= @usuario AND `senha`= @senha", meu_Banco_De_Dados.getConexao);
 
+            comandoSql.Parameters.Add("@usuario", MySqlDbType.VarChar).Value = textBoxUsuario.Text;
+            comandoSql.Parameters.Add("@senha", MySqlDbType.VarChar).Value = textBoxSenha.Text;
+
+            meuAdaptadorSql.SelectCommand = comandoSql;
+
+            meuAdaptadorSql.Fill(tabelaDeDados);
+
+            if (tabelaDeDados.Rows.Count > 0)
+            {
+                MessageBox.Show("SIM");
+            }
+            else
+            {
+                MessageBox.Show("Usuário não encontrado ou Senha incorreta.", "Erro de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void textBoxUsuario_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxSenha_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
