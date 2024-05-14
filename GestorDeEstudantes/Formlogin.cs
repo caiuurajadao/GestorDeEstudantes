@@ -45,7 +45,7 @@ namespace GestorDeEstudantes
 
             if (tabelaDeDados.Rows.Count > 0)
             {
-                MessageBox.Show("SIM");
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
