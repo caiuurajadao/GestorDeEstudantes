@@ -44,6 +44,29 @@ namespace GestorDeEstudantes
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            OpenFileDialog procurarFoto = new OpenFileDialog();
+
+            procurarFoto.Filter = "Selecione a foto (*.jpg,*.png,*.jpeg,*.gif)|*.jpg,*.png,*.jpeg,*.gif";
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void FormInserirEstudante_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxEnviar_TextChanged(object sender, EventArgs e)
+        {
+            
+                
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
         }
     }

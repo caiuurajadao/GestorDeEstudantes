@@ -25,7 +25,7 @@ namespace GestorDeEstudantes
         private void novoEstudanteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormInserirEstudante formInserirEstudante = new FormInserirEstudante();
-            FormInserirEstudante.Show(this);
+            formInserirEstudante.Show(this);
         }
 
         private void listaDeAlunosToolStripMenuItem_Click(object sender, EventArgs e)
