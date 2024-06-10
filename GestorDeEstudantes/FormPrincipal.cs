@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GestorDeEstudantes
+namespace GestorDeEstudantesT7
 {
     public partial class FormPrincipal : Form
     {
@@ -17,20 +17,21 @@ namespace GestorDeEstudantes
             InitializeComponent();
         }
 
-        private void estudantesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void estudanteToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void listaDeEstudantToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormListarEstudantes formListarEstudante = new FormListarEstudantes();
+            formListarEstudante.Show(this);
         }
 
         private void novoEstudanteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormInserirEstudante formInserirEstudante = new FormInserirEstudante();
             formInserirEstudante.Show(this);
-        }
-
-        private void listaDeAlunosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void estatísticasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,7 +44,7 @@ namespace GestorDeEstudantes
 
         }
 
-        private void gerenciarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void gerenciarAlunosToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }

@@ -1,44 +1,85 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorDeEstudantes
+namespace GestorDeEstudantesT7
 {
-    internal class estudante
+    internal class Estudante
     {
-        Meu_Banco_De_Dados meu_Banco_De_Dados = new Meu_Banco_De_Dados();
+        MeuBancoDeDados meuBancoDeDados = new MeuBancoDeDados();
 
-        public bool inserirEstudante(String nome, string sobrenome, DateTime nascimento,
+        public bool inserirEstudante(string nome, string sobrenome, DateTime nascimento, 
             string telefone, string genero, string endereco, MemoryStream foto)
-
         {
-            MySqlCommand comando = new MySqlCommand("INSERT INTO `estudantes`(`id`, `nome`," +
-                "`sobrenome`, `nascimento`, `genero`, `telefone`, `endereco`, `foto`) VALUES" +
-                " (@nome,@sobrenome,@nascimento,@genero,@telefone,@endereco,@foto)", meu_Banco_De_Dados.getConexao);
+            // Removido `id` da lista de parâmetros a serem alterados.
+            MySqlCommand comando = new MySqlCommand("INSERT INTO `estudantes`(`nome`, `sobrenome`, `nascimento`, `genero`, `telefone`, `endereco`, `foto`) VALUES (@nome,@sobrenome,@nascimento,@genero,@telefone,@endereco,@foto)", meuBancoDeDados.getConexao);
 
             comando.Parameters.Add("@nome", MySqlDbType.VarChar).Value = nome;
             comando.Parameters.Add("@sobrenome", MySqlDbType.VarChar).Value = sobrenome;
-            comando.Parameters.Add("@nascimento", MySqlDbType.VarChar).Value = nascimento;
+            comando.Parameters.Add("@nascimento", MySqlDbType.Date).Value = nascimento;
             comando.Parameters.Add("@genero", MySqlDbType.VarChar).Value = genero;
             comando.Parameters.Add("@telefone", MySqlDbType.VarChar).Value = telefone;
             comando.Parameters.Add("@endereco", MySqlDbType.Text).Value = endereco;
-            comando.Parameters.Add("@foto", MySqlDbType.LongBlob).Value = foto;
+            // Incluído o método ToArray() em foto.
+            comando.Parameters.Add("@foto", MySqlDbType.LongBlob).Value = foto.ToArray();
 
-            meu_Banco_De_Dados.abrirConexão();
+            meuBancoDeDados.abrirConexao();
 
             if(comando.ExecuteNonQuery() == 1)
             {
-                meu_Banco_De_Dados.fecharConexao();
+                meuBancoDeDados.fecharConexao();
                 return true;
-
             }
             else
             {
-                meu_Banco_De_Dados.fecharConexao();
+                meuBancoDeDados.fecharConexao();
+                return false;
+            }
+        }
+
+        // RETORNA a tabela dos estudantes que estão no banco de dados.
+        public DataTable getEstudantes(MySqlCommand comando)
+        {
+            comando.Connection = meuBancoDeDados.getConexao;
+
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(comando);
+            DataTable tabelaDeDados = new DataTable();
+            adaptador.Fill(tabelaDeDados);
+
+            return tabelaDeDados;
+        }
+
+        public bool atualizarEstudantes(int id, string nome, string sobrenome, DateTime nascimento,
+            string telefone, string genero, string endereco, MemoryStream foto)
+        {
+            // Removido `id` da lista de parâmetros a serem alterados.
+            MySqlCommand comando = new MySqlCommand("UPDATE `estudantes` SET `nome`=@nome,`sobrenome`=@sobrenome,`nascimento`=@nascimento,`genero`=@genero,`telefone`=@telefone,`endereco`=@endereco,`foto`=@foto WHERE `id`=@id", meuBancoDeDados.getConexao);
+
+            comando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+            comando.Parameters.Add("@nome", MySqlDbType.VarChar).Value = nome;
+            comando.Parameters.Add("@sobrenome", MySqlDbType.VarChar).Value = sobrenome;
+            comando.Parameters.Add("@nascimento", MySqlDbType.Date).Value = nascimento;
+            comando.Parameters.Add("@genero", MySqlDbType.VarChar).Value = genero;
+            comando.Parameters.Add("@telefone", MySqlDbType.VarChar).Value = telefone;
+            comando.Parameters.Add("@endereco", MySqlDbType.Text).Value = endereco;
+            // Incluído o método ToArray() em foto.
+            comando.Parameters.Add("@foto", MySqlDbType.LongBlob).Value = foto.ToArray();
+
+            meuBancoDeDados.abrirConexao();
+
+            if (comando.ExecuteNonQuery() == 1)
+            {
+                meuBancoDeDados.fecharConexao();
+                return true;
+            }
+            else
+            {
+                meuBancoDeDados.fecharConexao();
                 return false;
             }
         }
