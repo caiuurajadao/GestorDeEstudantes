@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GestorDeEstudantesT7
 {
@@ -83,5 +85,66 @@ namespace GestorDeEstudantesT7
                 return false;
             }
         }
+
+        // Apaga um estudante com base em seu ID.
+        public bool apagarEstudante(int id)
+        {
+            try
+            {
+
+            } catch
+            {
+
+            }
+            MySqlCommand comando = new MySqlCommand("DELETE FROM `estudantes` WHERE `id`=@id");
+        
+            comando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+
+            meuBancoDeDados.abrirConexao();
+
+            if (comando.ExecuteNonQuery() == 1)
+            {
+                meuBancoDeDados.fecharConexao();
+                return true;
+            }
+            else
+            {
+                meuBancoDeDados.fecharConexao();
+                return false;
+            }
+
+        }
+
+        // Função que faz a contagem de alunos.
+        public string fazerContagem(string pesquisa)
+        {
+            MySqlCommand comando = 
+                new MySqlCommand(pesquisa, 
+                meuBancoDeDados.getConexao);
+
+            meuBancoDeDados.abrirConexao();
+            // a pesquisa
+            string contagem = comando.ExecuteScalar().ToString();
+            meuBancoDeDados.fecharConexao();
+           
+            return contagem;
+        }
+
+        // pega o total de estudantes.
+        public string totalDeEstudantes()
+        {
+            return fazerContagem("SELECT COUNT(*) FROM `estudantes`");
+        }
+
+        public string totalDeEstudantesMeninos()
+        {
+            return fazerContagem("SELECT COUNT(*) FROM `estudantes` WHERE `genero`='Masculino'");
+        }
+
+        public string totalDeEstudantesMeninas()
+        {
+            return fazerContagem("SELECT COUNT(*) FROM `estudantes` WHERE `genero`='Feminino'");
+        }
+
     }
 }
